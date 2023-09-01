@@ -37,7 +37,7 @@ if ( not_empty records )
 end if;',
 	1,
 	'',
-	"00000000-0000-0000-0000-000000000000",
+	"96887cfa-084f-45c3-b6c0-8fc29adfd456",
 	0,
 	1);
 INSERT INTO O_TFR
@@ -55,7 +55,7 @@ class_package.description = param.description;
 return class_package;',
 	1,
 	'',
-	"ccc635be-f10c-4ee5-9df2-ea7b2ce27e93",
+	"00000000-0000-0000-0000-000000000000",
 	0,
 	2);
 INSERT INTO O_TPARM

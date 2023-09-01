@@ -305,7 +305,13 @@ relate record to class_package across R1;
 select many o_attrs related by o_obj->O_ATTR[R102];
 for each o_attr in o_attrs
   ::attribute2field( o_attr:o_attr, record:record );
-end for;',
+end for;
+
+// supply an event dispatcher
+select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
+if ( not_empty sm_sm )
+  ::class2event_action( o_obj:o_obj, class_package:class_package, domain_package:domain_package );
+end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
@@ -588,6 +594,60 @@ INSERT INTO S_DT_PROXY
 	'../../../../mcooa/models/mcooa/ooaofooa/Association/Association.xtuml');
 INSERT INTO PE_PE
 	VALUES ("44b793b5-9c83-4cd6-8661-1a3ae5c4a998",
+	1,
+	"195e9f6c-7ef4-4e85-8442-a2dcbf6639d2",
+	"00000000-0000-0000-0000-000000000000",
+	1);
+INSERT INTO S_SYNC
+	VALUES ("a154e8de-d284-4bb8-b944-a5ac6f8aa037",
+	"00000000-0000-0000-0000-000000000000",
+	'class2event_action',
+	'',
+	'class_package = param.class_package;
+domain_package = param.domain_package;
+
+// event_action (dispatcher) becomes a genfile
+event_action = event_action::populate();
+//relate class_package to event_action across R9;
+
+// event action is in a file
+select one root_package related by domain_package->root_package[R3];
+filename = T::sub( format:"lr", s:root_package.name ) + "-" + T::sub( format:"lr", s:domain_package.name ) + "-" + T::sub( format:"lr", s:class_package.name + "-event_action" );
+genfile = genfile::populate( name:filename, extension:"adb" );
+relate event_action to genfile across R200;
+',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'',
+	0,
+	3);
+INSERT INTO S_SPARM
+	VALUES ("482acffa-07ec-47ab-92e7-8c5df2847946",
+	"a154e8de-d284-4bb8-b944-a5ac6f8aa037",
+	'domain_package',
+	"73535d6a-209c-42ca-8802-bd03f5981206",
+	0,
+	'',
+	"36a295f4-5f73-46f7-a01f-9d5d63925035",
+	'');
+INSERT INTO S_SPARM
+	VALUES ("36a295f4-5f73-46f7-a01f-9d5d63925035",
+	"a154e8de-d284-4bb8-b944-a5ac6f8aa037",
+	'class_package',
+	"488d2f61-4ffa-4ce5-80dd-9c51f29a0a64",
+	0,
+	'',
+	"00000000-0000-0000-0000-000000000000",
+	'');
+INSERT INTO S_DT_PROXY
+	VALUES ("488d2f61-4ffa-4ce5-80dd-9c51f29a0a64",
+	"00000000-0000-0000-0000-000000000000",
+	'inst_ref<class_package>',
+	'',
+	'',
+	'../architecture/classes/classes.xtuml');
+INSERT INTO PE_PE
+	VALUES ("a154e8de-d284-4bb8-b944-a5ac6f8aa037",
 	1,
 	"195e9f6c-7ef4-4e85-8442-a2dcbf6639d2",
 	"00000000-0000-0000-0000-000000000000",

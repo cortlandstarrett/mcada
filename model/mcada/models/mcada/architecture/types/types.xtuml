@@ -5444,7 +5444,8 @@ INSERT INTO O_IOBJ
 	0,
 	"00000000-0000-0000-0000-000000000000",
 	'root_package',
-	'root_package');
+	'root_package',
+	1);
 INSERT INTO PE_PE
 	VALUES ("17f1e543-8eec-44f8-b567-fa55079350b7",
 	1,
