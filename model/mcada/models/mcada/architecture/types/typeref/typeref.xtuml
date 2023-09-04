@@ -15,7 +15,7 @@ INSERT INTO O_TFR
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'package_scope = "";
-select one domain_types_package related by self->adatype[R3762]->domain_types_package[R7];
+select one domain_types_package related by self->adatype[R3762]->domain_types_package[R5107];
 if ( not_empty domain_types_package )
   package_scope = domain_types_package.name + ".";
 end if;
@@ -40,7 +40,7 @@ create object instance typeref of typeref;
 typeref.name = param.name;
 typeref.body = param.body;
 typeref.decoration = "";
-select any referred_adatype related by domain_types_package->adatype[R7] where ( selected.name == param.name );
+select any referred_adatype related by domain_types_package->adatype[R5107] where ( selected.name == param.name );
 if ( not_empty referred_adatype )
 	relate typeref to referred_adatype across R3762.''refers to'';
 else

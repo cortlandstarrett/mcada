@@ -96,7 +96,7 @@ record = param.record;
 
 // attribute becomes field in record
 field = field::populate( name:o_attr.Name );
-relate field to record across R2;
+relate field to record across R5102;
 
 // link type
 select one s_dt related by o_attr->S_DT[R114];
@@ -113,7 +113,7 @@ if ( empty adatype )
   adatype = adatype::populate( name:s_dt.Name, domain_types_package:domain_types_package, visibility:"private", adaname:"bogusname" );
 end if;
 typeref = typeref::populate( name:adatype.name, body:adatype.adaname, domain_types_package:domain_types_package );
-relate field to typeref across R5;',
+relate field to typeref across R5105;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
@@ -210,7 +210,7 @@ root_package = param.root_package;
 
 // create genfile and domain package
 domain_package = domain_package::populate( name:c_c.Name, description:c_c.Descrip );
-relate domain_package to root_package across R3;
+relate domain_package to root_package across R5103;
 
 // domain package is in a file
 filename = T::sub( format:"lr", s:root_package.name ) + "-" + T::sub( format:"lr", s:c_c.Name );
@@ -289,17 +289,17 @@ domain_package = param.domain_package;
 
 // class becomes a genfile containing package with a record
 class_package = class_package::populate( name:o_obj.Key_Lett, long_name:o_obj.Name, description:o_obj.Descrip );
-relate class_package to domain_package across R4;
+relate class_package to domain_package across R5104;
 
 // class package is in a file
-select one root_package related by domain_package->root_package[R3];
+select one root_package related by domain_package->root_package[R5103];
 filename = T::sub( format:"lr", s:root_package.name ) + "-" + T::sub( format:"lr", s:domain_package.name ) + "-" + T::sub( format:"lr", s:class_package.name );
 genfile = genfile::populate( name:filename, extension:"ads" );
 relate class_package to genfile across R200;
 
 create object instance record of record;
 record.name = class_package.name;
-relate record to class_package across R1;
+relate record to class_package across R5101;
 
 // attributes become fields
 select many o_attrs related by o_obj->O_ATTR[R102];
@@ -470,7 +470,7 @@ select many typerefs from instances of typeref where ( selected.body == "" );
 for each typeref in typerefs
   select one adatype related by typeref->adatype[R3762];
   if ( empty adatype )
-    select any adatype related by domain_package->domain_types_package[R6]->adatype[R7] where ( selected.name == typeref.name );
+    select any adatype related by domain_package->domain_types_package[R5106]->adatype[R5107] where ( selected.name == typeref.name );
 	  if ( empty adatype )
       select any adatype from instances of adatype where ( selected.name == typeref.name );
       if ( empty adatype )
@@ -561,7 +561,7 @@ if ( "Super_Sub" != flavor )
 end if;
 
 relationship_package = relationship_package::populate( domain_package:domain_package, number:r_rel.Numb, flavor:flavor );
-relate relationship_package to domain_package across R8;',
+relate relationship_package to domain_package across R5108;',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
 	'',
@@ -608,10 +608,10 @@ domain_package = param.domain_package;
 
 // event_action (dispatcher) becomes a genfile
 event_action = event_action::populate();
-//relate class_package to event_action across R9;
+relate class_package to event_action across R5109;
 
 // event action is in a file
-select one root_package related by domain_package->root_package[R3];
+select one root_package related by domain_package->root_package[R5103];
 filename = T::sub( format:"lr", s:root_package.name ) + "-" + T::sub( format:"lr", s:domain_package.name ) + "-" + T::sub( format:"lr", s:class_package.name + "-event_action" );
 genfile = genfile::populate( name:filename, extension:"adb" );
 relate event_action to genfile across R200;

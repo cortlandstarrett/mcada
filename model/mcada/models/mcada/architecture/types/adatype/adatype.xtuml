@@ -71,10 +71,10 @@ adatype.rendered = false;
 adatype.declared_forward = false;
 adatype.lcount = 0;
 if ( not_empty domain_types_package )
-	relate adatype to domain_types_package across R7;
+  relate adatype to domain_types_package across R5107;
 else
-	// Built-in types are not related to a domain types package.
-	relate adatype to root_package across R3720;
+  // Built-in types are not related to a domain types package.
+  relate adatype to root_package across R3720;
 end if;
 //markable = markable::populate( name:"type" );
 //relate type to markable across R3783;
@@ -199,7 +199,7 @@ INSERT INTO O_TFR
 	1,
 	'select many typerefs related by self->structure[R3751]->member[R3752.''has'']->typeref[R3753];
 for each typeref in typerefs
-  select any referred_adatype related by self->domain_types_package[R7]->adatype[R7] where ( selected.name == typeref.body );
+  select any referred_adatype related by self->domain_types_package[R5107]->adatype[R5107] where ( selected.name == typeref.body );
   if ( not_empty referred_adatype )
     r = reference::populate( parent:self, child:referred_adatype );
   end if;

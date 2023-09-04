@@ -22,7 +22,7 @@ if ( empty reference )
   create object instance reference of reference;
   relate parent to child across R3777.''refers_to'' using reference;
   reference.resolved = false;
-  select one domain_types_package related by parent->domain_types_package[R7];
+  select one domain_types_package related by parent->domain_types_package[R5107];
   // TODO relate domain_types_package to reference across R3776.''contains'';
 end if;
 return reference;',

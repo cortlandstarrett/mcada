@@ -58,19 +58,19 @@ INSERT INTO O_TFR
 	1,
 	'LOG::LogInfo( message:"Rendering domain package for " + self.name );
 
-select one root_package related by self->root_package[R3];
+select one root_package related by self->root_package[R5103];
 
-select one domain_types_package related by self->domain_types_package[R6];
+select one domain_types_package related by self->domain_types_package[R5106];
 if ( not_empty domain_types_package )
   domain_types_package.render();
 end if;
 
-select many class_packages related by self->class_package[R4];
+select many class_packages related by self->class_package[R5104];
 for each class_package in class_packages
   class_package.render();
 end for;
 
-select many relationship_packages related by self->relationship_package[R8];
+select many relationship_packages related by self->relationship_package[R5108];
 for each relationship_package in relationship_packages
   relationship_package.render();
 end for;

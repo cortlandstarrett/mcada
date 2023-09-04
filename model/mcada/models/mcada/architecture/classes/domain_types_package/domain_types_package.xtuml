@@ -17,7 +17,7 @@ INSERT INTO O_TFR
 	'domain_package = param.domain_package;
 create object instance domain_types_package of domain_types_package;
 domain_types_package.name = param.name + "_Domain_Types";
-relate domain_types_package to domain_package across R6;
+relate domain_types_package to domain_package across R5106;
 
 // domain types package is in a file
 filename = T::sub( format:"lr", s:domain_types_package.name );
@@ -73,15 +73,15 @@ INSERT INTO O_TFR
 // TODO - unwind these recursively to avoid forward reference
 
 T::include( file:"package/t.domain_types_package_begin.ada" );
-select many adatypes related by self->adatype[R7]->enumeration[R3751]->adatype[R3751];
+select many adatypes related by self->adatype[R5107]->enumeration[R3751]->adatype[R3751];
 for each adatype in adatypes
   adatype.render();
 end for;
-select many adatypes related by self->adatype[R7]->constraint[R3751]->adatype[R3751];
+select many adatypes related by self->adatype[R5107]->constraint[R3751]->adatype[R3751];
 for each adatype in adatypes
   adatype.render();
 end for;
-select many adatypes related by self->adatype[R7]->structure[R3751]->adatype[R3751];
+select many adatypes related by self->adatype[R5107]->structure[R3751]->adatype[R3751];
 for each adatype in adatypes
   adatype.render();
 end for;
@@ -119,7 +119,7 @@ INSERT INTO O_TFR
 	'valid = true;
 select many domain_types_packages from instances of domain_types_package;
 for each domain_types_package in domain_types_packages
-  select one domain_package related by domain_types_package->domain_package[R6];
+  select one domain_package related by domain_types_package->domain_package[R5106];
   if ( empty domain_package )
     mcada::trace( flavor:"failure", id:5, message:"domain_types_packages exists without domain_package" );
     valid = false;

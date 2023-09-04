@@ -52,7 +52,7 @@ for each adatype in adatypes
   adatype.populate_references();
 end for;
 
-select many domain_packages related by self->domain_package[R3];
+select many domain_packages related by self->domain_package[R5103];
 for each domain_package in domain_packages
   domain_package.render();
 end for;
