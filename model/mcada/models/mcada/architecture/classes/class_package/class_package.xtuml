@@ -14,7 +14,8 @@ INSERT INTO O_TFR
 	'',
 	"ba5eda7a-def5-0000-0000-000000000000",
 	1,
-	'select one domain_package related by self->domain_package[R5104];
+	'LOG::LogInfo( message:"Rendering class package for " + self.name );
+select one domain_package related by self->domain_package[R5104];
 select one root_package related by domain_package->root_package[R5103];
 select many records related by self->record[R5101];
 if ( not_empty records )
@@ -31,10 +32,22 @@ if ( not_empty records )
     sep = "\n";
   end for;
   record_body = T::body();
-  T::include( file:"package/t.class_package.ada" );
-  T::emit( file:self.file_path );
+  // Render specification.
+  T::include( file:"package/t.class_package.ads" );
+  T::emit( file:self.file_path + ".ads" );
   T::clear();
-end if;',
+  // Render implementation.
+  T::include( file:"package/t.class_package.adb" );
+  T::emit( file:self.file_path + ".adb" );
+  T::clear();
+end if;
+
+// Render the event dispatcher for active classes.
+select many event_actions related by self->event_action[R5109];
+for each event_action in event_actions
+  event_action.render();
+end for;
+',
 	1,
 	'',
 	"96887cfa-084f-45c3-b6c0-8fc29adfd456",
@@ -51,6 +64,9 @@ INSERT INTO O_TFR
 class_package.name = T::sub( format:"r", s:param.name );
 class_package.long_name = param.long_name;
 class_package.description = param.description;
+class_package.is_active = false;
+class_package.participates = false;
+class_package.is_simple_passive = false;
 
 return class_package;',
 	1,
@@ -195,6 +211,60 @@ INSERT INTO O_ATTR
 	'long_name',
 	0,
 	"ba5eda7a-def5-0000-0000-000000000004",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("2e4253a7-4b3e-4692-a802-ace488fe3e99",
+	"8a0521ed-c9f9-45d3-9731-6feddbd586fc");
+INSERT INTO O_BATTR
+	VALUES ("2e4253a7-4b3e-4692-a802-ace488fe3e99",
+	"8a0521ed-c9f9-45d3-9731-6feddbd586fc");
+INSERT INTO O_ATTR
+	VALUES ("2e4253a7-4b3e-4692-a802-ace488fe3e99",
+	"8a0521ed-c9f9-45d3-9731-6feddbd586fc",
+	"97bd7264-05c1-4807-9a1a-94bacf8a23da",
+	'is_active',
+	'',
+	'',
+	'is_active',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("fdd962a5-b9b8-4e9c-94de-416cfece1fab",
+	"8a0521ed-c9f9-45d3-9731-6feddbd586fc");
+INSERT INTO O_BATTR
+	VALUES ("fdd962a5-b9b8-4e9c-94de-416cfece1fab",
+	"8a0521ed-c9f9-45d3-9731-6feddbd586fc");
+INSERT INTO O_ATTR
+	VALUES ("fdd962a5-b9b8-4e9c-94de-416cfece1fab",
+	"8a0521ed-c9f9-45d3-9731-6feddbd586fc",
+	"2e4253a7-4b3e-4692-a802-ace488fe3e99",
+	'participates',
+	'',
+	'',
+	'participates',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
+	'',
+	'');
+INSERT INTO O_NBATTR
+	VALUES ("5e26c93a-9dd0-4ce3-a7ff-8b7ff8d41e7b",
+	"8a0521ed-c9f9-45d3-9731-6feddbd586fc");
+INSERT INTO O_BATTR
+	VALUES ("5e26c93a-9dd0-4ce3-a7ff-8b7ff8d41e7b",
+	"8a0521ed-c9f9-45d3-9731-6feddbd586fc");
+INSERT INTO O_ATTR
+	VALUES ("5e26c93a-9dd0-4ce3-a7ff-8b7ff8d41e7b",
+	"8a0521ed-c9f9-45d3-9731-6feddbd586fc",
+	"fdd962a5-b9b8-4e9c-94de-416cfece1fab",
+	'is_simple_passive',
+	'',
+	'',
+	'is_simple_passive',
+	0,
+	"ba5eda7a-def5-0000-0000-000000000001",
 	'',
 	'');
 INSERT INTO O_ID

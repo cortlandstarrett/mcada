@@ -294,7 +294,7 @@ relate class_package to domain_package across R5104;
 // class package is in a file
 select one root_package related by domain_package->root_package[R5103];
 filename = T::sub( format:"lr", s:root_package.name ) + "-" + T::sub( format:"lr", s:domain_package.name ) + "-" + T::sub( format:"lr", s:class_package.name );
-genfile = genfile::populate( name:filename, extension:"ads" );
+genfile = genfile::populate( name:filename, extension:"" );
 relate class_package to genfile across R200;
 
 create object instance record of record;
@@ -310,6 +310,7 @@ end for;
 // supply an event dispatcher
 select one sm_sm related by o_obj->SM_ISM[R518]->SM_SM[R517];
 if ( not_empty sm_sm )
+  class_package.is_active = true;
   ::class2event_action( o_obj:o_obj, class_package:class_package, domain_package:domain_package );
 end if;',
 	"ba5eda7a-def5-0000-0000-000000000000",

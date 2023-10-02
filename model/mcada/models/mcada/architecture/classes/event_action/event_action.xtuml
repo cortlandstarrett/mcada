@@ -29,6 +29,27 @@ INSERT INTO S_DT_PROXY
 	'',
 	'',
 	'../classes.xtuml');
+INSERT INTO O_TFR
+	VALUES ("8002b92f-6acc-4541-97c3-4008c5e2ef5d",
+	"1751788c-521e-4997-a2a5-40f70586232a",
+	'render',
+	'',
+	"ba5eda7a-def5-0000-0000-000000000000",
+	1,
+	'select one class_package related by self->class_package[R5109];
+select one domain_package related by class_package->domain_package[R5104];
+select one root_package related by domain_package->root_package[R5103];
+mcada::trace( id:113, flavor:"info", message:"Rendering event action package for " + class_package.name );
+
+T::include( file:"package/t.event_action.ada" );
+T::emit( file:self.file_path );
+T::clear();
+',
+	1,
+	'',
+	"0d860dc6-eb0c-464b-bf41-69e657a723bd",
+	0,
+	2);
 INSERT INTO O_REF
 	VALUES ("1751788c-521e-4997-a2a5-40f70586232a",
 	"96310937-5d19-4102-a55d-f59311314289",
